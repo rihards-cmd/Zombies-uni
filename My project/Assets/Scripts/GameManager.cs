@@ -1,5 +1,6 @@
 using System.Numerics;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -74,6 +75,7 @@ public class GameManager : MonoBehaviour
         }
         timer += Time.deltaTime;
         timerText.text = "Time:" + timer.ToString("0.0");
+
 
     }
 }
