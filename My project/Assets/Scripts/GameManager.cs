@@ -1,6 +1,8 @@
 using System.Numerics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Vector3 = UnityEngine.Vector3;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +15,9 @@ public class GameManager : MonoBehaviour
     private InputAction next, prev, push;
 
     public Vector3 pushForce;
+
+    public TMP_Text timerText;
+    private float timer;
     private void Start()
     {
         next = InputSystem.actions.FindAction("NextZombie");
@@ -67,5 +72,8 @@ public class GameManager : MonoBehaviour
                 rb.AddForce(pushForce);
             }
         }
+        timer += Time.deltaTime;
+        timerText.text = "Time:" + timer.ToString("0.0");
+
     }
 }
