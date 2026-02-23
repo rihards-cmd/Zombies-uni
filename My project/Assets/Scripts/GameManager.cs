@@ -3,8 +3,10 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +20,10 @@ public class GameManager : MonoBehaviour
     public Vector3 pushForce;
 
     public TMP_Text timerText;
+
+    public GameObject loseScreen;
+    public GameObject deathZone;
+    
     private float timer;
     private void Start()
     {
@@ -37,14 +43,26 @@ public class GameManager : MonoBehaviour
         }
         selectedZombie = zombies[index];
         selectedZombie.transform.localScale = selectedSize;
-        Debug.Log("Selected Zombie"+selectedZombie);
+        //Debug.Log("Selected Zombie"+selectedZombie);
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void LoseGame()
+    {
+        loseScreen.SetActive(true);
+        Time.timeScale = 0.7f;
+        Debug.Log("YOU LOSE");
     }
     // Update is called once per frame
     void Update()
     {
         if (next.WasPressedThisFrame())
         {
-            Debug.Log("next Pressed Zombie");
+            //Debug.Log("next Pressed Zombie");
             selectedIndex++;
             if (selectedIndex >= zombies.Length)
             {
@@ -55,7 +73,7 @@ public class GameManager : MonoBehaviour
 
         if (prev.WasPressedThisFrame())
         {
-            Debug.Log("prev Pressed Zombie");
+            //Debug.Log("prev Pressed Zombie");
             selectedIndex--;
             if (selectedIndex < 0)
             {
@@ -63,10 +81,11 @@ public class GameManager : MonoBehaviour
             }
             SelectZombie(selectedIndex);
         }
+        
 
         if (push.WasPressedThisFrame())
         {
-            Debug.Log("Pushed Zombie");
+            //Debug.Log("Pushed Zombie");
             Rigidbody rb = selectedZombie.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -75,7 +94,8 @@ public class GameManager : MonoBehaviour
         }
         timer += Time.deltaTime;
         timerText.text = "Time:" + timer.ToString("0.0");
+        
 
-
+        
     }
 }
